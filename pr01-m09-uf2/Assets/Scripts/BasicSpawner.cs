@@ -35,16 +35,21 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         var data = new NetworkInputData();
 
         if (Input.GetKey(KeyCode.W))
-            data.direction += runner.transform.forward;
+            data.direction += Camera.main.transform.forward;
 
         if (Input.GetKey(KeyCode.S))
-            data.direction -= runner.transform.forward;
+            data.direction -= Camera.main.transform.forward;
 
         if (Input.GetKey(KeyCode.A))
-            data.direction -= runner.transform.right;
+            data.direction -= Camera.main.transform.right;
 
         if (Input.GetKey(KeyCode.D))
-            data.direction += runner.transform.right;
+            data.direction += Camera.main.transform.right;
+
+        if (Input.GetKey(KeyCode.Mouse0))
+        {
+            Debug.Log("DISPARO");
+        }
 
         input.Set(data);
     }
