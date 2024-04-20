@@ -13,11 +13,12 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private NetworkPrefabRef _playerPrefab;
     private Dictionary<PlayerRef, NetworkObject> _spawnedCharacters = new Dictionary<PlayerRef, NetworkObject>();
 
+    
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player) {
         if (runner.IsServer)
         {
             // Create a unique position for the player
-            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 3, 1, 0);
+            Vector3 spawnPosition = new Vector3((player.RawEncoded % runner.Config.Simulation.PlayerCount) * 0, 20, 0);    
             NetworkObject networkPlayerObject = runner.Spawn(_playerPrefab, spawnPosition, Quaternion.identity, player);
             // Keep track of the player avatars for easy access
             _spawnedCharacters.Add(player, networkPlayerObject);
@@ -34,16 +35,16 @@ public class BasicSpawner : MonoBehaviour, INetworkRunnerCallbacks
         var data = new NetworkInputData();
 
         if (Input.GetKey(KeyCode.W))
-            data.direction += Vector3.forward;
+            data.direction += runner.transform.forward;
 
         if (Input.GetKey(KeyCode.S))
-            data.direction += Vector3.back;
+            data.direction -= runner.transform.forward;
 
         if (Input.GetKey(KeyCode.A))
-            data.direction += Vector3.left;
+            data.direction -= runner.transform.right;
 
         if (Input.GetKey(KeyCode.D))
-            data.direction += Vector3.right;
+            data.direction += runner.transform.right;
 
         input.Set(data);
     }
